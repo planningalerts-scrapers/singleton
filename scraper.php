@@ -1,4 +1,5 @@
 <?php
+require 'scraperwiki.php';
 
 require 'scraperwiki/simple_html_dom.php';
 
@@ -34,7 +35,7 @@ foreach ($rss->channel->item as $item)
     $rss_title = explode('-', $item->title);
     $council_reference = trim($rss_title[0]);
 
-    $existingRecords = scraperwiki::select("* from swdata where `council_reference`='" . $council_reference . "'");
+    $existingRecords = scraperwiki::select("* from data where `council_reference`='" . $council_reference . "'");
     if (sizeof($existingRecords) == 0)
     {
         if (trim($item->category) == "DEVELOPMENT APPLICATION")
