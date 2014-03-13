@@ -12,7 +12,7 @@ page.search('.result').each do |application|
 
   date_received = application.children[6].inner_text.split("\r\n").last.strip
 
-  application_id = application.search('a').first['href'].split('?').last
+  application_id = application.search('a').first['href'].split('?id=').last.strip
   info_url = "http://portal.singleton.nsw.gov.au/eplanning/pages/XC.Track/SearchApplication.aspx?id=#{application_id}"
   record = {
     "council_reference" => application.search('a').first.inner_text,
