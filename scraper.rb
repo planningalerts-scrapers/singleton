@@ -16,7 +16,7 @@ page.search('.result').each do |application|
   info_url = "http://portal.singleton.nsw.gov.au/eplanning/pages/XC.Track/SearchApplication.aspx?id=#{application_id}"
   record = {
     "council_reference" => application.search('a').first.inner_text,
-    "description" => application.children[4].inner_text,
+    "description" => application.children[4].inner_text.strip.gsub('DEVELOPMENT APPLICATION        - ', ''),
     "date_received" => Date.parse(date_received, 'd/m/Y').to_s,
     # TODO: There can be multiple addresses per application
     "address" => application.search("strong").first.inner_text,
