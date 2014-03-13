@@ -1,7 +1,7 @@
 require 'scraperwiki'
 require 'mechanize'
 
-url = 'http://portal.singleton.nsw.gov.au/eplanning/pages/XC.Track/SearchApplication.aspx?d=last14days&t=8&k=LodgementDate'
+url = 'http://portal.singleton.nsw.gov.au/eplanning/Pages/XC.Track/SearchApplication.aspx?as=n&d=thisweek&k=LodgementDate&t=8'
 
 agent = Mechanize.new
 page = agent.get(url)
