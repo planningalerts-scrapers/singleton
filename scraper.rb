@@ -1,11 +1,10 @@
 require 'scraperwiki'
 require 'mechanize'
 
-url = "http://rccweb.rockdale.nsw.gov.au/EPlanning/Pages/XC.Track/SearchApplication.aspx?d=last14days&k=LodgementDate&t=217"
+url = 'http://portal.singleton.nsw.gov.au/eplanning/pages/XC.Track/SearchApplication.aspx?d=last14days&t=8&k=LodgementDate'
 
 agent = Mechanize.new
 page = agent.get(url)
-
 
 page.search('.result').each do |application|
   # Skip multiple addresses
@@ -19,7 +18,7 @@ puts application.search("strong").inspect
   more_data[2].strip!
   
   application_id = application.search('a').first['href'].split('?').last
-  info_url = "http://rccweb.rockdale.nsw.gov.au/EPlanning/Pages/XC.Track/SearchApplication.aspx?id=#{application_id}"
+  info_url = "http://portal.singleton.nsw.gov.au/eplanning/pages/XC.Track/SearchApplication.aspx?id=#{application_id}"
   record = {
     "council_reference" => application.search('a').first.inner_text,
     "description" => application.children[4].inner_text,
