@@ -13,12 +13,9 @@ date_default_timezone_set('Australia/Sydney');
 $date_format = 'Y-m-d';
 $cookie_file = '/tmp/cookies.txt';
 $comment_url = 'mailto:ssc@singleton.nsw.gov.au';
-$terms_url = 'http://portal.singleton.nsw.gov.au/eplanning/Common/Common/Terms.aspx';
 $rss_feed = 'http://portal.singleton.nsw.gov.au/eplanning/pages/XC.Track/SearchApplication.aspx?o=rss&d=last14days&t=8&k=LodgementDate';
 
 print "Scraping portal.singleton.nsw.gov.au...\n";
-
-accept_terms($terms_url, $cookie_file);
 
 // Download and parse RSS feed (last 14 days of applications)
 $curl = curl_init($rss_feed);
@@ -87,34 +84,4 @@ foreach ($rss->channel->item as $item)
     }
 }
 
-function accept_terms($terms_url, $cookie_file)
-{
-    $curl = curl_init($terms_url);
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($curl, CURLOPT_COOKIEJAR, $cookie_file);
-    curl_setopt($curl, CURLOPT_COOKIEFILE, $cookie_file);
-    $terms_response = curl_exec($curl);
-    curl_close($curl);
-    
-    preg_match('/<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="(.*)" \/>/', $terms_response, $viewstate_matches);
-    $viewstate = $viewstate_matches[1];
-    
-    preg_match('/<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="(.*)" \/>/', $terms_response, $eventvalidation_matches);
-    $eventvalidation = $eventvalidation_matches[1];
-    
-    $postfields = array();
-    $postfields['__VIEWSTATE'] = $viewstate;
-    $postfields['__EVENTVALIDATION'] = $eventvalidation;
-    $postfields['ctl00$ctMain1$BtnAgree'] = 'I Agree';
-    $postfields['ctl00$ctMain1$chkAgree$ctl02'] = 'on';
-    
-    $curl = curl_init($terms_url);
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($curl, CURLOPT_POST, 1); 
-    curl_setopt($curl, CURLOPT_POSTFIELDS, $postfields); 
-    curl_setopt($curl, CURLOPT_COOKIEJAR, $cookie_file);
-    curl_setopt($curl, CURLOPT_COOKIEFILE, $cookie_file);
-    curl_exec($curl);
-    curl_close($curl);
-}
 ?>
