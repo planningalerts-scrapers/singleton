@@ -20,6 +20,7 @@ print "Scraping portal.singleton.nsw.gov.au...\n";
 // Download and parse RSS feed (last 14 days of applications)
 $curl = curl_init($rss_feed);
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curl, CURLOPT_USERAGENT, 'PlanningAlerts.org.au');
 $rss_response = curl_exec($curl);
 curl_close($curl);
 
