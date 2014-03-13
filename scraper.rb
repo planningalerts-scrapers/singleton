@@ -8,7 +8,6 @@ page = agent.get(url)
 
 page.search('.result').each do |application|
   # Skip multiple addresses
-puts application.search("strong").inspect
   next unless application.search("strong").select{|x|x.inner_text != "Approved"}.length == 1
 
   address = application.search("strong").first
