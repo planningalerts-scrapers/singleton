@@ -19,7 +19,7 @@ page.search('.result').each do |application|
     "description" => application.children[4].inner_text.strip.gsub('DEVELOPMENT APPLICATION        - ', ''),
     "date_received" => Date.parse(date_received, 'd/m/Y').to_s,
     # TODO: There can be multiple addresses per application
-    "address" => application.search("strong").first.inner_text,
+    "address" => application.search("strong").first.inner_text.strip,
     "date_scraped" => Date.today.to_s,
     "info_url" => info_url,
     # Can't find a specific url for commenting on applications.
