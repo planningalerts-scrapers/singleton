@@ -10,9 +10,6 @@ page.search('.result').each do |application|
   # Skip multiple addresses
   next unless application.search("strong").select{|x|x.inner_text != "Approved"}.length == 1
 
-  address = application.search("strong").first
-
-
   more_data = application.children[10].inner_text.split("\r\n")
   more_data[2].strip!
   
