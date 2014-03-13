@@ -10,15 +10,14 @@ page.search('.result').each do |application|
   # Skip multiple addresses
   next unless application.search("strong").select{|x|x.inner_text != "Approved"}.length == 1
 
-  more_data = application.children[10].inner_text.split("\r\n")
-  more_data[2].strip!
-  
+  date_received = application.children[6].inner_text.split("\r\n").last.strip
+
   application_id = application.search('a').first['href'].split('?').last
   info_url = "http://portal.singleton.nsw.gov.au/eplanning/pages/XC.Track/SearchApplication.aspx?id=#{application_id}"
   record = {
     "council_reference" => application.search('a').first.inner_text,
     "description" => application.children[4].inner_text,
-    "date_received" => Date.parse(more_data[2][0..9], 'd/m/Y').to_s,
+    "date_received" => Date.parse(date_received, 'd/m/Y').to_s,
     # TODO: There can be multiple addresses per application
     "address" => application.search("strong").first.inner_text,
     "date_scraped" => Date.today.to_s,
