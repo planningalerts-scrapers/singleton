@@ -31,10 +31,6 @@ page.search('.result').each do |application|
     record["on_notice_from"] = Date.parse(e.parent.at("LodgementDate").inner_text).to_s
     record["on_notice_to"] = Date.parse(e.parent.at("DateDue").inner_text).to_s
   end
-  
-  if (ScraperWiki.select("* from data where `council_reference`='#{record['council_reference']}'").empty? rescue true)
-    ScraperWiki.save_sqlite(['council_reference'], record)
-  else
-    puts "Skipping already saved record " + record['council_reference']
-  end
+
+  ScraperWiki.save_sqlite(['council_reference'], record)
 end
